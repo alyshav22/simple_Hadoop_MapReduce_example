@@ -1,19 +1,18 @@
 #!/usr/bin/env python
-import os.path
+import sys
+
+#import a list of stopwords from sklearn
 from sklearn.feature_extraction import stop_words
 import string
 
 stopwords = set(stop_words.ENGLISH_STOP_WORDS)
 
-
-f = open(os.path.expanduser('~') + '/shakespeare.txt', 'r')
-outfile = os.path.expanduser('~') + '/intermediate_result'
-g = open(outfile, 'w')
-g.close()
-# get all lines from stdin
-for line in f:
+# get all input from stdin
+for line in sys.stdin:
     # remove leading and trailing whitespace
     line = line.strip().lower()
+
+    # remove punctuation
     line = line.translate(str.maketrans('', '', string.punctuation))
 
     # split the line into words; splits on any whitespace
@@ -22,10 +21,6 @@ for line in f:
     # output tuples (word, 1) in tab-delimited format
     for word in words:
         if word not in stopwords:
-            #print(f'{word}\t1')
-            g=open(outfile, 'a')
-            g.write(f'{word}\t1\n')
-            g.close()
+            print(f'{word}\t1')
 
-f.close()
 
